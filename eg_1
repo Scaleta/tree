@@ -1,0 +1,12 @@
+DOMAINS
+	tree=empty;	tr(integer,tree,tree) 
+PREDICATES
+        nondeterm tree_replace (integer, integer, tree, tree)
+CLAUSES 
+        tree_replace(_,_,empty,empty):- !. 
+        tree_replace(X,Y,tr(X,L,R),tr(Y,L1,R1)):- !,tree_replace(X,Y,L,L1), tree_replace(X,Y,R,R1). 
+        tree_replace(X,Y,tr(K,L,R),tr(K,L1,R1)):- tree_replace(X,Y,L,L1), tree_replace(X,Y,R,R1). 
+
+
+Goal
+        tree_replace(2, 3, tr(2, empty, empty), X).
