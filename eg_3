@@ -1,0 +1,41 @@
+domains
+    treetype = tree(string, treetype, treetype); empty().
+    
+predicates
+     nondeterm create_tree(A,tree(A,empty,empty)).
+     nondeterm insert_left(X,tree(A,_,B),tree(A,X,B)).
+     nondeterm insert_right(X,tree(A,B,_),tree(A,B,X)).
+    
+    
+    clauses
+ create_tree(A,tree(A,empty,empty)).
+ insert_left(X,tree(A,_,B),tree(A,X,B)).
+ insert_right(X,tree(A,B,_),tree(A,B,X)).
+clauses
+
+   run():-
+ console::init(),
+/* First create some one-cell trees... */
+ create_tree("Charles",CharlesTree),
+ create_tree("Hazel",HazelTree),
+ create_tree("Michael",MichaelTree),
+ create_tree("Jim",JimTree),
+ create_tree("Eleanor",EleanorTree),
+ create_tree("Melody",MelodyTree),
+ create_tree("Cathy",CathyTree),
+/* ...then link them up... */
+ insert_left(CharlesTree, MichaelTree, Mi2),
+ insert_right(HazelTree, Mi2Tree, Mi3),
+ insert_left(JimTree, MelodyTree, Me2),
+ insert_right(EleanorTree, Me2, Me3),
+ insert_left(Mi3, CathyTree, Ca2),
+ insert_right(Me3, Ca2, Ca3),
+/* ...and print the result. */
+ stdIO::write(Ca3,'\n'),
+ _ = stdIO::readChar(), !,
+ succeed(). % place your own code here
+run().
+   /* insert_left(X, tree(A,_,B),tree(A,X,B)).
+    create_tree("Nick", tree(5, empty, empty)). 
+goal
+   .*/
