@@ -1,0 +1,26 @@
+domains
+    treetype = tree(integer, treetype, treetype); empty()
+predicates
+    nondeterm traverse(treetype)
+    nondeterm br(integer,integer,treetype)
+    nondeterm branch(integer,treetype)
+clauses
+    traverse(empty).
+    traverse(tree(Name, Left, Right)):-
+        write(Name,'\n'),
+        traverse(Left),
+        traverse(Right).
+    br(_,_,empty):-fail.
+    br(X,Y,tree(X,Left,Right)):-write(Y).
+    br(X,Y,tree(_,Left,Right)):-Y1=Y+1, br(X,Y1,Left).
+    br(X,Y,tree(_,Left,Right)):-Y1=Y+1, br(X,Y1,Right).
+    branch(X,Tree):-br(X,0,Tree);write(X," not found\n").
+goal
+    branch(8,tree(3,
+        tree(2,
+            tree(1,empty,empty),
+            tree(2,empty,empty)),
+        tree(5,empty,
+            tree(8,
+                tree(9,empty,empty),
+                empty)))).
