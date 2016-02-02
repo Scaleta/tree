@@ -1,0 +1,20 @@
+domains
+    tree=empty;	trees(integer,tree,tree).
+    %treetype = tree(integer, integer, integer).
+    
+	
+predicates    
+    nondeterm insert(integer, tree, tree).
+
+
+clauses
+insert(NewItem, empty, trees(NewItem, empty, empty)):-!.
+insert(NewItem, trees(Element, Left, Right), trees(Element, NewLeft, Right)):-
+NewItem < Element,
+!,
+insert(NewItem, Left, NewLeft).
+insert(NewItem, trees(Element, Left, Right), trees(Element, Left, NewRight)):-
+insert(NewItem, Right, NewRight).
+
+goal
+insert(2, trees(2, empty, empty), X).
