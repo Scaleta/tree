@@ -1,0 +1,26 @@
+domains
+      treetype = tree(integer, treetype, treetype); empty
+ 
+predicates
+      nondeterm max_t(treetype, integer)
+      nondeterm max(integer,integer,integer)
+
+ 
+clauses
+ 
+max(M,N,N) :- N>=M, !.
+max(M,N,M) :- M>=N, !.
+
+ 
+max_t(tree(X,empty,empty),X) :- !.
+max_t(tree(X,empty,R),Q) :- max_t(R,N), max(X,N,Q).
+max_t(tree(X,L,empty),Q) :- max_t(L,N), max(X,N,Q).
+max_t(tree(X,L,R),Q) :- max_t(L,LM), max_t(R,RM), max(RM,LM,QM), max(X,QM,Q). 
+
+
+goal
+
+max_t(tree(2,
+           tree(5,empty,empty),
+           tree(7,empty,
+                tree(1,empty,empty))),X).
