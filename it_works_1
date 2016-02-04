@@ -1,0 +1,14 @@
+domains 
+     tree = empty ; tr(integer, tree, tree) 
+predicates 
+     nondeterm insert_left(tree, integer, tree) 
+clauses 
+     insert_left(empty, X, tr(X, empty, empty)). 
+     insert_left(tr(A, B, C), X, tr(A, B1, C)) :- insert_left(B,X, B1). 
+goal 
+     insert_left(tr(3,       %root
+tr(1,                        %left subtree
+    tr(5, empty, empty), 
+    tr(0, empty, empty)),
+tr(2, empty, empty)),        %right subtree
+    4, X).
