@@ -1,0 +1,22 @@
+DOMAINS
+	tree=empty;	tr(integer,tree,tree) 
+PREDICATES
+tree_height (tree, integer)
+max(integer,integer,integer)
+item(integer, integer)
+
+CLAUSES
+max(M,N,N) :- N>=M, !.
+max(M,N,M) :- M>=N, !.
+ 
+tree_height(empty,0). 
+tree_height(tr(_,L,R),D) :- tree_height(L,D1), 
+                            tree_height(R,D2), 
+                            max(D1,D2,D_M), 
+                            D=D_M+1. 
+                            
+item(Y, X) :- Y=2, X=3.                            
+goal
+
+tree_height(tr(2,tr(4,empty,tr(5,empty,empty)),empty),X).
+                
