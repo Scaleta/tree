@@ -1,0 +1,41 @@
+DOMAINS
+	tree=empty;	tr(integer,tree,tree) 
+	po=empty;        tree(po,integer,po)
+PREDICATES
+tree_height (tree, integer)
+max(integer,integer,integer)
+
+
+nondeterm p(po,integer,integer)
+
+CLAUSES
+max(M,N,N) :- N>=M, !.
+max(M,N,M) :- M>=N, !.
+ 
+tree_height(empty,0). 
+tree_height(tr(_,L,R),D) :- tree_height(L,D1), 
+                            tree_height(R,D2), 
+                            max(D1,D2,D_M), 
+                            D=D_M+1. 
+p(tree(_,V,_),0,V):- !.
+p(tree(L,_,_),Level,X):- Level1 = Level-1, p(L,Level1,X).
+p(tree(_,_,R),Level,X):- Level1 = Level-1, p(R,Level1,X).
+                            
+                            
+goal
+
+tree_height(tr(2,tr(4,empty,tr(5,empty,empty)),empty),X).                
+/*
+p(tree(
+       tree(empty,3,
+                    tree(empty,4,
+                                 tree(empty,9,
+                                              tree(empty,7,empty)))),
+       2,
+       tree(empty,3,
+                    tree(empty,5,
+                                 tree(empty,1,
+                                              tree(empty,5,empty))))),
+       4,V).
+       
+       */
