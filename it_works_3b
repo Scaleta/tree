@@ -1,0 +1,72 @@
+DOMAINS
+	
+	tr=empty;        tree(integer,tr,tr); end
+	number = integer
+        list = number *
+PREDICATES
+nondeterm tree_height (tr, integer)
+max(integer,integer,integer)
+
+minus(integer,integer)
+
+insert_sort(list,list)
+insert(number,list,list)
+asc_order(number,number)
+
+nondeterm p(tr,integer,integer)
+
+CLAUSES
+max(M,N,N) :- N>=M, !.
+max(M,N,M) :- M>=N, !.
+ 
+tree_height(empty, 0). 
+tree_height(tree(_,L,R),D) :- tree_height(L,D1), 
+                              tree_height(R,D2), 
+                              max(D1,D2,M_D), 
+                              D=M_D+1.
+minus(D,K) :- K=D-1.                            
+             
+p(tree(V,_,_),0,V):- !.
+p(tree(_,L,_),Level,X):- Level1 = Level-1, p(L,Level1,X).
+p(tree(_,_,R),Level,X):- Level1 = Level-1, p(R,Level1,X).
+
+insert_sort([],[]).      
+insert_sort([X|Tail],Sorted_list) :- insert_sort(Tail,Sorted_Tail), insert(X,Sorted_Tail,Sorted_list). 
+ 
+insert(X,[Y|Sorted_list],[Y|Sorted_list1]) :- asc_order(X,Y), !, insert(X,Sorted_list,Sorted_list1).
+ 
+insert(X,Sorted_list,[X|Sorted_list]).
+asc_order(X,Y) :- X>Y. %po vosrastaniu                    
+                            
+goal
+
+
+
+
+tree_height(tree(2,
+                 tree(4,empty,
+                              tree(5,empty,
+                                           tree(2,empty,
+                                                        tree(9,empty,empty)))),
+                 tree(7,
+                      tree(1,empty,empty),
+                      empty)),X),               
+minus(X,K),
+p(tree(6,
+       tree(3,empty,
+                    tree(4,empty,
+                                 tree(9,empty,
+                                              tree(7,empty,
+                                                           tree(8,empty,empty))))),
+       
+       tree(8,empty,
+                    tree(5,empty,
+                                 tree(1,
+                                        tree(8,empty,empty),
+                                        tree(5,empty,
+                                                     tree(5,empty,empty)))))),
+       K,V),
+       
+     
+insert_sort([V],S).
+       
