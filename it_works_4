@@ -1,0 +1,46 @@
+DOMAINS
+	
+	tr=empty;        tree(integer,tr,tr); end
+	number = integer
+        list = number *
+PREDICATES
+nondeterm conc(list,list,list)
+nondeterm listok(tr,integer)
+nondeterm output(tr,integer,integer)
+nondeterm vdiapasone(list,list,integer,integer)
+nondeterm lenght(list, integer)
+CLAUSES
+listok(tree(A,empty,empty),A).
+listok(tree(_,L,R),A):- listok(L,A);listok(R,A).
+
+vdiapasone([H|[]],[],X,Y):-H<X;H>Y,!.
+vdiapasone([H|[]],[H],X,Y):-H>=X,H<=Y,!.
+vdiapasone([H|T],L,X,Y):- vdiapasone([H],H1,X,Y),vdiapasone(T,T1,X,Y),conc(H1,T1,L).
+
+
+conc([],L,L).
+conc([H|T],L,[H|T1]):-conc(T,L,T1).
+
+lenght([],0).
+lenght([_|T],S):-lenght(T,S1),S=S1+1.
+
+
+output(T,X,Y) :- 
+
+findall(E,listok(T,E),W),write("Vse listki= ",W),nl,vdiapasone(W,J,X,Y),write("Vdiapasone = ",J),nl,lenght(J,R),write("Dlina = ",R),nl.         
+
+                        
+goal
+
+output(tree(2,
+                 tree(4,empty,
+                              tree(5,empty,
+                                           tree(2,tree(1,empty,empty),
+                                                        tree(9,empty,empty)))),
+                 tree(7,
+                      tree(1,empty,
+                                   tree(9,empty,
+                                                tree(5,empty,empty))),
+                      empty)),1,7), fail.
+
+
